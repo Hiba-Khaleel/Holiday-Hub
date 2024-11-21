@@ -1,5 +1,7 @@
 ﻿namespace HolidayHub;
 
+using Npgsql;
+
 class Program
 {
     static void Main(string[] args)
