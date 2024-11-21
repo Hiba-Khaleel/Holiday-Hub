@@ -1,7 +1,7 @@
 # HolidayHub
 
 ### Documentation Link:
-https://statics.teams.cdn.office.net/evergreen-assets/safelinks/1/atp-safelinks.html
+https://thorengruppen-my.sharepoint.com/:w:/g/personal/peter_svensson_student_nbi-handelsakademin_se/EdeEWxMgwLhOgnPcH50CzrYBMZi1a2qY6UqMQcq82dsQig?wdOrigin=TEAMS-MAGLEV.null_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1732194805211&web=1
 
 ### Each person should:
 - git clone
