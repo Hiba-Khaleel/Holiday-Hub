@@ -27,7 +27,7 @@ https://thorengruppen-my.sharepoint.com/:w:/g/personal/peter_svensson_student_nb
     - git merge with main
     - git push
     - Notify teammates to pull the latest version of the code
-    - delete branch
+    - delete branch from main using ->: git branch -d branch-name
     - move task to done in Trello.com
 
 ### Push new code
