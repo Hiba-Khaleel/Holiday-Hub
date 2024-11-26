@@ -1,6 +1,6 @@
 using Npgsql;
 
-namespace DefaultNamespace;
+namespace HolidayHub;
 
 public class QueryHandler
 {
