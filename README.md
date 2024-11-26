@@ -32,16 +32,17 @@ https://thorengruppen-my.sharepoint.com/:w:/g/personal/peter_svensson_student_nb
 
 ### Push new code
 Check if anyone else is pushing and alert everyone:
-1. git add .
-2. git commit -m "Write a description on what has been done"
-3. git status
-4. git checkout main
-5. git pull origin BRANCHNAME
-6. git merge
-7. git checkout Branchname // don't need to but in case someone else i pushing
-8. git merge               // -||-
-9. git chekout main        // -||-
-10. git status             // Before pushing anything
+1. git checkout main
+2. git pull
+3. git checkout BRANCHNAME
+4. git add .
+5. git commit -m "Write a description on what has been done"
+6. git status
+7. git push origin BRANCHNAME
+8. git checkout main
+9. git merge origin BRANCHNAME
+   -- Ev resolve conflicts -->git add, git commit
+10. git status            // Before pushing anything
 11. git push
 
 
