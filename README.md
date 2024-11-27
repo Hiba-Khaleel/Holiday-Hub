@@ -40,7 +40,7 @@ Check if anyone else is pushing and alert everyone:
 6. git status
 7. git push origin BRANCHNAME
 8. git checkout main
-9. git merge origin BRANCHNAME
+9. git merge BRANCHNAME
    -- Ev resolve conflicts -->git add, git commit
 10. git status            // Before pushing anything
 11. git push
