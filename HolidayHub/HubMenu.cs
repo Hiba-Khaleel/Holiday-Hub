@@ -5,12 +5,12 @@ namespace HolidayHub;
 public class HubMenu
 {
     private readonly QueryHandler _queryHandler;
-    /*
-    public HubMenu(QueryHandler queryHandler)
-    {
-        _queryHandler = queryHandler;
-    }
-*/
+    
+    //public HubMenu(QueryHandler queryHandler)
+    //{
+    //    _queryHandler = queryHandler;
+   // }
+
     public void PrintMenu()
     {
         Console.WriteLine("Choose an option: ");
