@@ -65,7 +65,7 @@ public class HubMenu
                     break;
                 case "2":
                     System.Console.WriteLine("Update existing customer");
-                    ListAllCustomers();
+                    _queryHandler.ListAllCustomers(); // Objectname.Methodname
                     break;
                 case "0":
                     System.Console.WriteLine("Exiting... Have a nice day!");
