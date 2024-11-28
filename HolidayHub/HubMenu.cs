@@ -5,16 +5,14 @@ namespace HolidayHub;
 public class HubMenu
 {
     private readonly QueryHandler _queryHandler;
-    /*
     public HubMenu(QueryHandler queryHandler)
     {
         _queryHandler = queryHandler;
     }
-*/
     public void PrintMenu()
     {
         Console.WriteLine("Choose an option: ");
-        Console.WriteLine("1. Manage Customer: "); // Gör samma som Manage bookings
+        Console.WriteLine("1. Manage Customers: "); // Gör samma som Manage bookings
         Console.WriteLine("2. Manage bookings: ");
         Console.WriteLine("0. Exit");
         AskUser();
@@ -31,7 +29,7 @@ public class HubMenu
                 switch (input)
                 {
                     case "1":
-                        RegisterCustomer();
+                        ManageCustomers();
                         break;
                     case "2":
                         ManageBookings();
@@ -41,22 +39,44 @@ public class HubMenu
                         return;
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
+                        AskUser();
                         break;
                 }
             }
-            else
-            {
-                Console.WriteLine("Input cannot be empty. Please try again.");
-            }
+           
         }
     }
 
-    public void RegisterCustomer()
+    public void ManageCustomers()
     {
         Console.WriteLine("Choose an option: ");
         Console.WriteLine("1. Register new customer:  ");
         Console.WriteLine("2. Update existing customer: ");
         Console.WriteLine("0. Exit");
+
+		string input = Console.ReadLine();
+
+        if (!string.IsNullOrWhiteSpace(input))
+        {
+            switch (input)  
+            {
+                case "1":
+                    System.Console.WriteLine("Register new customer");
+                    break;
+                case "2":
+                    System.Console.WriteLine("Update existing customer");
+                    ListAllCustomers();
+                    break;
+                case "0":
+                    System.Console.WriteLine("Exiting... Have a nice day!");
+                    break;
+                default:
+                    System.Console.WriteLine("Invalid choice. Please try again.");
+                    ManageCustomers();
+                    break;
+            }
+        }
+        
         /*
         Console.WriteLine("Enter Email: ");
         var email = Console.ReadLine();  //  Kommenteras ut till QuerySelectors
@@ -102,9 +122,10 @@ public class HubMenu
                     break;
                 case "0":
                     Console.WriteLine("Exiting...");
-                    return;
+                    break;
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
+                    ManageBookings();
                     break;
             }
         }
