@@ -8,10 +8,12 @@ class Program
     {
         Console.WriteLine("Welcome to HolidayHub!");
         // Ensure QueryHandler is implemented
-        // QueryHandler queryHandler = new QueryHandler(); 
+        Database database = new();
+        var db=database.Connection();
+         var queryHandler = new QueryHandler(db); 
         
         // Pass the dependency to HubMenu
-        HubMenu menu = new HubMenu(); //Lägg till queryHandler i parantesen
+        HubMenu menu = new HubMenu(queryHandler); //Lägg till queryHandler i parantesen
         
         // Display the menu
         menu.PrintMenu();
