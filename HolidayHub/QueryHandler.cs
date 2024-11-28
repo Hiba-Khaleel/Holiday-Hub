@@ -6,7 +6,7 @@ public class QueryHandler
 {
     NpgsqlDataSource _db;
     
-     public QueryHandler(NpgsqlDataSource db) // Stavning:
+     public QueryHandler(NpgsqlDataSource db) 
       {
         _db = db;
       }
@@ -18,7 +18,7 @@ public class QueryHandler
 		{
 			while (await reader.ReadAsync())
 			{
-				Console.WriteLine($"id: {reader.GetInt32(0)} \t first_name: {reader.GetString(1)}  \t last_name: {reader.GetString(2)} \t email: {reader.GetString(3)} \t phone_nr: {reader.GetString(4)} \t date_of_birth: {reader.GetDateTime(5)}");
+				Console.WriteLine($"id: {reader.GetInt32(0)} \t first_name: {reader.GetString(1)}  \t last_name: {reader.GetString(2)} \t email: {reader.GetString(3)} \t phone_nr: {reader.GetString(4)} \t date_of_birth: {reader.GetDateTime(5)}");//check DateTime Type
 			}
 		}
 
