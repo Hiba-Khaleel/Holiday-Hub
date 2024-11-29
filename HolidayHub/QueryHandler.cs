@@ -158,7 +158,32 @@ public class QueryHandler
 	{
 		
 	}
-     public async void ShowOne(string id) { }
+
+  public async void ShowOne(string id)
+{
+    await using (var cmd = _db.CreateCommand("SELECT * FROM customers WHERE id = $1"))
+    {
+        cmd.Parameters.AddWithValue(int.Parse(id));
+
+        await using (var reader = await cmd.ExecuteReaderAsync())
+        {
+            while (await reader.ReadAsync())
+            {
+                Console.WriteLine(
+                    $"id: {reader.GetInt32(0)} \t " +
+                    $"first_name: {reader.GetString(1)} \t " +
+                    $"last_name: {reader.GetString(2)}\t " +
+                    $"email: {reader.GetString(3)} \t " +
+                    $"phone_nr: {reader.GetString(4)} \t " +
+                    $"date_of_birth: {reader.GetDateTime(5)}"
+                );
+            }
+        }
+    }
+}
+
+
+
 
      public async void AddOne(string name, string? slogan) { }
 
@@ -168,3 +193,4 @@ public class QueryHandler
 
 */
 }
+
