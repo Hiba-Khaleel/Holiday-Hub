@@ -23,7 +23,141 @@ public class QueryHandler
 		}
 
 	}
+     
+	 public async void RegisterCustomer() 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
+	 }
+	 public async void SearchAvailableRoomOrderByRating() 
+     {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+     }
+
+	 public async void SearchAvailableRoomOrderByPrice() 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	 }
+
+	 public async void SearchByCustomerSpecifications() 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	 }
+
+	 public async void CreateBooking() 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	 }
+
+	 public async void ListAllBookings() 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	 }
+
+	 public async void SearchBookingById() 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	 }
+
+	 public async void UpdateBookingById() 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	 }
+
+	 public async void RemoveBookingById() 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	 }
+	
+	/* public async void FilterCustomerBy() 
+	{
+	
+	} 
+	
+	 public async void UpdateCustomerInformation() 
+	{
+		
+	}
      public async void ShowOne(string id) { }
 
      public async void AddOne(string name, string? slogan) { }
@@ -31,5 +165,6 @@ public class QueryHandler
      public async void UpdateOne(string id) { }
 
      public async void DeleteOne(string id) { }
-     
+
+*/
 }
