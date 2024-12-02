@@ -96,9 +96,13 @@ public class HubMenu
                 case "1":
                     break;
                 case "2":
+					_queryHandler.ListAllBookings();
+					Console.ReadKey();
 					_queryHandler.SearchBookingById(); // Objectname.Methodname();
-                    break;
+
+					break;
                 case "3":
+					_queryHandler.ListAllBookings();
                     break;
                 case "0":
                     Console.WriteLine("Returning to Main Menu...");

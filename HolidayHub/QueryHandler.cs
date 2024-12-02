@@ -114,19 +114,18 @@ public class QueryHandler
 							 $"Extra Bed: {reader.GetBoolean(8)}");
 			}
 		}
+		Console.WriteLine("Enter any key to continue...");
 	 }
 
 	 public async void SearchBookingById() // SELECT 
 	 {
 		 Console.WriteLine("Enter the Booking ID to search: ");
 		 string? input = Console.ReadLine();
-
-		 if (!int.TryParse(input, out int bookingId))
-		 {
-			 Console.WriteLine("Invalid Booking ID. Please enter a numeric value.");
-			 return;
-		 }
-
+		if (!int.TryParse(input, out int bookingId))
+        {
+            Console.WriteLine("Invalid Booking ID. Please enter a numeric value.");
+            return;
+        }
 		 try
 		 {
 			 await using (var cmd = _db.CreateCommand("SELECT * FROM bookings WHERE id = $1"))
