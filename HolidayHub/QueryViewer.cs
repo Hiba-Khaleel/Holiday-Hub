@@ -18,8 +18,8 @@ public class QueryViewer
         // Grundkrav för att söka
         public int BookingId { get; set; }
         public string Destination { get; set; }
-        public TimeDate CheckInDate { get; set; } // Kan behöva vara annan data typ - date ??
-        public TimeDate CheckOutDate { get; set; }
+        public DateTime CheckInDate { get; set; } // Changed DateTime correct way to write it instead of TimeDate
+        public DateTime CheckOutDate { get; set; } // -||-
         
         // Extra 
         public int NumberOfGuests { get; set; }
@@ -42,7 +42,7 @@ public class QueryViewer
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNr { get; set; }
-        public TimeDate DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; } // Switched DateTime instead of TimeDate
     }
     public class HotelInformation
     {
@@ -123,12 +123,6 @@ public class QueryViewer
     3. HubMenu -> skickar obj till QueryHandler för att uppdatera Databasen
     
     */
-    
-    
-    
-    
-    
-    
-    
+
 
 }
