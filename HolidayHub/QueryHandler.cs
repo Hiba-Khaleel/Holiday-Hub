@@ -153,7 +153,7 @@ public class QueryHandler
 		 }
 	 }
 
-	 public async void UpdateBookingById() 
+	 public async void UpdateBookingById() // UPDATE
 	 {
 		
 		
@@ -167,7 +167,7 @@ public class QueryHandler
 
 	 }
 
-	 public async void RemoveBookingById() 
+	 public async void RemoveBookingById() // DELETE
 	 {
 		
 		
