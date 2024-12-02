@@ -96,15 +96,24 @@ public class QueryHandler
 	 public async void ListAllBookings() // SELECT * FROM bookings
 	 {
 		
-		
-		
-		
-		Console.WriteLine("Hello");
-		
-		
-		
-		
-
+		await using (var cmd = _db.CreateCommand("SELECT * FROM bookings ORDER BY id"))
+		await using (var reader = await cmd.ExecuteReaderAsync())
+		{
+			
+			while (await reader.ReadAsync())
+			{
+				Console.WriteLine(
+							 $"Booking ID: {reader.GetInt32(0)} \t " +
+							 $"Customer ID: {reader.GetInt32(1)} \t " +
+							 $"Check-In Date: {reader.GetDateTime(2):yyyy-MM-dd} \t " +
+							 $"Check-Out Date: {reader.GetDateTime(3):yyyy-MM-dd} \t " +
+							 $"Number of Guests: {reader.GetInt32(4)} \t " +
+							 $"Number of Adults: {reader.GetInt32(5)} \t " +
+							 $"Number of Children: {reader.GetInt32(6)} \t " +
+							 $"Board Type: {reader.GetString(7)} \t " +
+							 $"Extra Bed: {reader.GetBoolean(8)}");
+			}
+		}
 	 }
 
 	 public async void SearchBookingById() // SELECT 
