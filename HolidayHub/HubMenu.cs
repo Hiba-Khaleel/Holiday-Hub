@@ -62,7 +62,16 @@ public class HubMenu
             {
                 case "1":
                     System.Console.WriteLine("Register new customer");
-                    _queryHandler.RegisterNewCustomer();
+					CustomerInformation newCustomer = new CustomerInformation
+					{
+						FirstName = "Karl",
+						LastName = "Karlsson",
+						Email = "kakasson@mail.com",
+						PhoneNr = "98754376",
+						DateOfBirth = DateTime.Parse("2000-01-01")
+					};
+                    await _queryHandler.RegisterCustomer(newCustomer);
+                    System.Console.WriteLine("New customer has been registered");
                     break;
                 case "2":
                     System.Console.WriteLine("Update existing customer");
