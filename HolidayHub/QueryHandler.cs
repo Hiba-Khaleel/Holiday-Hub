@@ -51,17 +51,21 @@ public class QueryHandler
 
      }
 
-	 public async void SearchAvailableRoomOrderByPrice() // SELECT 	
+	 public async Task SearchAvailableRoomOrderByPrice()  	
 	 {
 		
+		await using (var cmd = _db.CreateCommand("SELECT * FROM rooms ORDER BY price_per_night"))
+        {
+            await using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                
+               Console.WriteLine($"id: {reader.GetInt32(0)}\t price_per_night: {reader.GetDouble(3)} \t hotel_id: {reader.GetInt32(1)} \t room_type: {reader.GetString(2)} \t window_view: {reader.GetBoolean(4)}\t balcony: {reader.GetBoolean(5)}\t floor: {reader.GetInt32(6)}");
+}
+            
+        }
 		
-		
-		
-		
-		
-		
-		
-		
+			
 
 	 }
 
