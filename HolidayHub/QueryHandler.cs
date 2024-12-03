@@ -24,7 +24,7 @@ public class QueryHandler
 
 	}
      //Metod för register new customer.
-	 public async Task RegisterCustomer(QueryViewer customer) // INSERT
+	 /*public async Task RegisterCustomer(QueryViewer customer) // INSERT
 	 {
 		 await using (var cmd = _db.CreateCommand("INSERT INTO customers (first_name, last_name, email, phone_nr, date_of_birth) VALUES ($1, $2, $3, $4, $5)"))
 		 {
@@ -45,7 +45,64 @@ public class QueryHandler
 		
 		
 
+	 }*/
+	 public async Task RegisterCustomer(QueryViewer customer) // INSERT
+
+	 {
+
+		 try
+
+		 {
+
+			 // Ensure connection is available
+
+			 await using (var cmd = _db.CreateCommand("INSERT INTO customers (first_name, last_name, email, phone_nr, date_of_birth) VALUES ($1, $2, $3, $4, $5)"))
+
+			 {
+
+				 // Add parameters with proper names and values
+
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.FirstName);
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.LastName);
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.Email);
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.PhoneNr);
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.DateOfBirth);
+ 
+				 // Execute the query and capture the result
+
+				 int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+				 if (rowsAffected > 0)
+
+				 {
+
+					 Console.WriteLine("Customer successfully registered.");
+
+				 }
+
+				 else
+
+				 {
+
+					 Console.WriteLine("Customer registration failed.");
+
+				 }
+
+			 }
+
+		 }
+
+		 catch (Exception ex)
+
+		 {
+
+			 Console.WriteLine($"An error occurred while registering the customer: {ex.Message}");
+
+		 }
+
 	 }
+
+
 	 public async void SearchAvailableRoomOrderByRating()  // SELECT
      {
 		

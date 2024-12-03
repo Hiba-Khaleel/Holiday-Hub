@@ -46,7 +46,7 @@ public class HubMenu
         }
     }
 
-    public void ManageCustomers()
+    public async Task ManageCustomers()
     {
         Console.WriteLine("Choose an option: ");
         Console.WriteLine("1. Register new customer:  ");
@@ -62,14 +62,42 @@ public class HubMenu
             {
                 case "1":
                     System.Console.WriteLine("Register new customer");
-					CustomerInformation newCustomer = new CustomerInformation
-					{
-						FirstName = "Karl",
-						LastName = "Karlsson",
-						Email = "kakasson@mail.com",
-						PhoneNr = "98754376",
-						DateOfBirth = DateTime.Parse("2000-01-01")
-					};
+                    QueryViewer newCustomer = new QueryViewer();// inititerar QueryViewer(objekt)
+                    Console.WriteLine("Enter first name:");
+                    string firstName = Console.ReadLine();
+
+                    Console.WriteLine("Enter last name:");
+                    string lastName = Console.ReadLine();
+
+                    Console.WriteLine("Enter email:");
+                    string email = Console.ReadLine();
+
+                    Console.WriteLine("Enter phone number:");
+                    string phoneNr = Console.ReadLine();
+
+                    Console.WriteLine("enter date of birth: ");
+                    DateTime inputDate = DateTime.Parse (Console.ReadLine());
+                    
+                    newCustomer.CustomerDetails.FirstName = firstName;
+                    newCustomer.CustomerDetails.LastName = lastName;
+                    newCustomer.CustomerDetails.Email = email;
+                    newCustomer.CustomerDetails.PhoneNr = phoneNr;
+                    newCustomer.CustomerDetails.DateOfBirth = inputDate;
+                    
+                   
+                    //string dateBirth = Console.ReadLine();
+                    
+                    /*if (DateTime.TryParse(inputDate, out DateTime dateOfBirth))
+                    { 
+                        newCustomer.CustomerDetails.DateOfBirth = DateTime.Parse(dateOfBirth);
+                        break;
+                        
+                    }
+                    
+                    else{ Console.WriteLine("Invalid format!");}*/
+                    
+                    
+					
                     await _queryHandler.RegisterCustomer(newCustomer);
                     System.Console.WriteLine("New customer has been registered");
                     break;

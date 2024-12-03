@@ -10,8 +10,16 @@ public class QueryViewer
     /// 
     /// 
     /// </summary>
+    public CustomerInformation CustomerDetails { get; set; }
         
-    
+    public QueryViewer()
+
+    {
+
+        CustomerDetails = new CustomerInformation(); // Initialize 
+
+    }
+
 
     public class BookingInformation
     {
