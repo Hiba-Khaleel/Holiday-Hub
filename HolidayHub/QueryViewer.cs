@@ -11,13 +11,28 @@ public class QueryViewer
     /// 
     /// </summary>
         
-    
+    // Property that holds the instance of BookingInformation
+    public BookingInformation BookingDetails { get; set; }
+    public BookingXRooms BookingXRoomsDetails { get; set; }
+    public CustomerInformation CustomerDetails { get; set; }
+    public HotelInformation HotelDetails { get; set; }
+    public RoomInformation RoomDetails { get; set; }
+
+    // Constructor that initializes the BookingInformation property
+    public QueryViewer()
+    {
+        BookingDetails = new BookingInformation(); // Initialize BookingInformation
+		BookingXRoomsDetails = new BookingXRooms(); // Initialize BookingXRooms
+        CustomerDetails = new CustomerInformation(); // Initialize CustomerInformation
+        HotelDetails = new HotelInformation(); // Initialize HotelInformation
+        RoomDetails = new RoomInformation(); // Initialize RoomInformation
+    }
 
     public class BookingInformation
     {
         // Grundkrav för att söka
         public int BookingId { get; set; }
-        public string Destination { get; set; }
+        public int CustomerId { get; set; }
         public DateTime CheckInDate { get; set; } // Changed DateTime correct way to write it instead of TimeDate
         public DateTime CheckOutDate { get; set; } // -||-
         
@@ -28,6 +43,9 @@ public class QueryViewer
         public string BoardType { get; set; }
         public bool ExtraBed { get; set; }
     }
+
+	
+
 
     public class BookingXRooms // Behövs denna? 
     {

@@ -93,7 +93,7 @@ public class QueryHandler
 
 	 }
 
-	 public async void ListAllBookings() // SELECT * FROM bookings
+	 public async Task ListAllBookings() // SELECT * FROM bookings
 	 {
 		
 		await using (var cmd = _db.CreateCommand("SELECT * FROM bookings ORDER BY id"))
@@ -114,65 +114,81 @@ public class QueryHandler
 							 $"Extra Bed: {reader.GetBoolean(8)}");
 			}
 		}
-		Console.WriteLine("Enter any key to continue...");
 	 }
 
-	 public async void SearchBookingById() // SELECT 
-	 {
-		 Console.WriteLine("Enter the Booking ID to search: ");
-		 string? input = Console.ReadLine();
-		if (!int.TryParse(input, out int bookingId))
+	public async Task<QueryViewer> SearchBookingById(string bookingId) // SELECT 
+    {
+        QueryViewer bookingData = new QueryViewer();
+    
+        // Convert bookingId (string) to int
+        if (int.TryParse(bookingId, out int parsedBookingId))
         {
-            Console.WriteLine("Invalid Booking ID. Please enter a numeric value.");
-            return;
+            await using (var cmd = _db.CreateCommand("SELECT * FROM bookings WHERE id = $1"))
+            {
+                // Use the parsed integer as the parameter value
+                cmd.Parameters.AddWithValue(parsedBookingId);
+    
+                await using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    Console.WriteLine("Query executed. Now reading data...");
+    
+                    if (await reader.ReadAsync())
+                    {
+                        bookingData.BookingDetails.BookingId = reader.GetInt32(reader.GetOrdinal("id"));
+                        bookingData.BookingDetails.CustomerId = reader.GetInt32(reader.GetOrdinal("customer_id"));
+                        bookingData.BookingDetails.CheckInDate = reader.GetDateTime(reader.GetOrdinal("check_in_date"));
+                        bookingData.BookingDetails.CheckOutDate = reader.GetDateTime(reader.GetOrdinal("check_out_date"));
+                        bookingData.BookingDetails.NumberOfGuests = reader.GetInt32(reader.GetOrdinal("nr_of_guests"));
+                        bookingData.BookingDetails.NumberOfAdults = reader.GetInt32(reader.GetOrdinal("nr_of_adults"));
+                        bookingData.BookingDetails.NumberOfChildren = reader.GetInt32(reader.GetOrdinal("nr_of_children"));
+                        bookingData.BookingDetails.BoardType = reader.GetString(reader.GetOrdinal("board_type"));
+                        bookingData.BookingDetails.ExtraBed = reader.GetBoolean(reader.GetOrdinal("extra_bed"));
+                        
+                        Console.WriteLine(
+                            $"Booking ID: {bookingData.BookingDetails.BookingId} \t " +
+                            $"Customer ID: {bookingData.BookingDetails.CustomerId} \t " +
+                            $"Check-In Date: {bookingData.BookingDetails.CheckInDate:yyyy-MM-dd} \t " +
+                            $"Check-Out Date: {bookingData.BookingDetails.CheckOutDate:yyyy-MM-dd} \t " +
+                            $"Number of Guests: {bookingData.BookingDetails.NumberOfGuests} \t " +
+                            $"Number of Adults: {bookingData.BookingDetails.NumberOfAdults} \t " +
+                            $"Number of Children: {bookingData.BookingDetails.NumberOfChildren} \t " +
+                            $"Board Type: {bookingData.BookingDetails.BoardType} \t " +
+                            $"Extra Bed: {bookingData.BookingDetails.ExtraBed}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No booking found with the provided ID.");
+                    }
+                }
+            }
         }
-		 try
-		 {
-			 await using (var cmd = _db.CreateCommand("SELECT * FROM bookings WHERE id = $1"))
-			 {
-				 cmd.Parameters.AddWithValue(bookingId);
+        else
+        {
+            Console.WriteLine("Invalid booking ID input. Please enter a valid number.");
+        }
+    
+        return bookingData;
+    }
 
-				 await using (var reader = await cmd.ExecuteReaderAsync()) 
-					// Since we are using a select => ExecuteReaderAsync()
-				 {
-					 if (await reader.ReadAsync())
-					 {
-						 Console.WriteLine(
-							 $"Booking ID: {reader.GetInt32(0)} \t " +
-							 $"Customer ID: {reader.GetInt32(1)} \t " +
-							 $"Check-In Date: {reader.GetDateTime(2):yyyy-MM-dd} \t " +
-							 $"Check-Out Date: {reader.GetDateTime(3):yyyy-MM-dd} \t " +
-							 $"Number of Guests: {reader.GetInt32(4)} \t " +
-							 $"Number of Adults: {reader.GetInt32(5)} \t " +
-							 $"Number of Children: {reader.GetInt32(6)} \t " +
-							 $"Board Type: {reader.GetString(7)} \t " +
-							 $"Extra Bed: {reader.GetBoolean(8)}");
-					 }
-					 else
-					 {
-						 Console.WriteLine("No booking found with the provided ID.");
-					 }
-				 }
-			 }
-		 }
-		 catch (Exception ex)
-		 {
-			 Console.WriteLine($"An error occurred: {ex.Message}");
-		 }
-	 }
-
-	 public async void UpdateBookingById() // UPDATE
+	 public async void UpdateBookingById(QueryViewer bookingData) // UPDATE
 	 {
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		            // Update data
 
+            await using (var cmd = _db.CreateCommand("UPDATE bookings SET id = $1, customer_id = $2, check_in_date = $3, check_out_date = $4, nr_of_guests = $5, nr_of_adults = $6, nr_of_children = $7, board_type = $8, extra_bed = $9  WHERE id = $1"))
+            {
+                cmd.Parameters.AddWithValue(bookingData.BookingDetails.BookingId);
+                cmd.Parameters.AddWithValue(bookingData.BookingDetails.CustomerId);
+				cmd.Parameters.AddWithValue(bookingData.BookingDetails.CheckInDate);
+				cmd.Parameters.AddWithValue(bookingData.BookingDetails.CheckOutDate);
+				cmd.Parameters.AddWithValue(bookingData.BookingDetails.NumberOfGuests);
+				cmd.Parameters.AddWithValue(bookingData.BookingDetails.NumberOfAdults);
+				cmd.Parameters.AddWithValue(bookingData.BookingDetails.NumberOfChildren);
+				cmd.Parameters.AddWithValue(bookingData.BookingDetails.BoardType);
+				cmd.Parameters.AddWithValue(bookingData.BookingDetails.ExtraBed);
+                
+				await cmd.ExecuteNonQueryAsync();
+            }
+		
 	 }
 
 	 public async void RemoveBookingById() // DELETE
