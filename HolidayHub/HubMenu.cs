@@ -45,7 +45,7 @@ public class HubMenu
         }
     }
 
-    public void ManageCustomers()
+    public async Task ManageCustomers()
     {
         Console.WriteLine("Choose an option: ");
         Console.WriteLine("1. Register new customer:  ");
@@ -61,6 +61,44 @@ public class HubMenu
             {
                 case "1":
                     System.Console.WriteLine("Register new customer");
+                    QueryViewer newCustomer = new QueryViewer();// inititerar QueryViewer(objekt)
+                    Console.WriteLine("Enter first name:");
+                    string firstName = Console.ReadLine();
+
+                    Console.WriteLine("Enter last name:");
+                    string lastName = Console.ReadLine();
+
+                    Console.WriteLine("Enter email:");
+                    string email = Console.ReadLine();
+
+                    Console.WriteLine("Enter phone number:");
+                    string phoneNr = Console.ReadLine();
+
+                    Console.WriteLine("enter date of birth: ");
+                    DateTime inputDate = DateTime.Parse (Console.ReadLine());
+                    
+                    newCustomer.CustomerDetails.FirstName = firstName;
+                    newCustomer.CustomerDetails.LastName = lastName;
+                    newCustomer.CustomerDetails.Email = email;
+                    newCustomer.CustomerDetails.PhoneNr = phoneNr;
+                    newCustomer.CustomerDetails.DateOfBirth = inputDate;
+                    
+                   
+                    //string dateBirth = Console.ReadLine();
+                    
+                    /*if (DateTime.TryParse(inputDate, out DateTime dateOfBirth))
+                    { 
+                        newCustomer.CustomerDetails.DateOfBirth = DateTime.Parse(dateOfBirth);
+                        break;
+                        
+                    }
+                    
+                    else{ Console.WriteLine("Invalid format!");}*/
+                    
+                    
+					
+                    await _queryHandler.RegisterCustomer(newCustomer);
+                    System.Console.WriteLine("New customer has been registered");
                     break;
                 case "2":
                     System.Console.WriteLine("Update existing customer");
@@ -81,7 +119,7 @@ public class HubMenu
     public async Task ManageBookings()
     {
         Console.WriteLine("Choose an option: ");
-        Console.WriteLine("1. Add new booking: ");
+        Console.WriteLine("1. Add new booking: "); //Ska vi lägga till en undermeny-metod?
         Console.WriteLine("2. Change booking: ");
         Console.WriteLine("3. Remove booking: ");
         Console.WriteLine("0. Return to Main Menu: ");
@@ -103,7 +141,16 @@ public class HubMenu
 
 					break;
                 case "3":
-					_queryHandler.ListAllBookings();
+                    Console.WriteLine("Enter the Booking ID to remove: ");
+                    string bookingIdInput = Console.ReadLine();
+                    if (int.TryParse(bookingIdInput, out int bookingId))
+                    {
+                        await _queryHandler.RemoveBookingById(bookingId);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid booking ID. Please enter a valid integer.");
+                    }
                     break;
                 case "0":
                     Console.WriteLine("Returning to Main Menu...");
