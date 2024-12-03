@@ -24,8 +24,19 @@ public class QueryHandler
 
 	}
      
-	 public async void RegisterCustomer() // INSERT
+	 public async void RegisterCustomer(string FirstName, string LastName, string Email, string PhoneNr, DateTime Date_Of_Birth) // INSERT
 	 {
+		 await using (var cmd = _db.CreateCommand("INSERT INTO customers (first_name, last_name, email, phone_nr, date_of_birth) VALUES ($1, $2, $3, $4, $5)"))
+		 {
+			 cmd.Parameters.AddWithValue("$1", FirstName);
+			 cmd.Parameters.AddWithValue("$2", LastName);
+			 cmd.Parameters.AddWithValue("$3", Email);
+			 cmd.Parameters.AddWithValue("$4", PhoneNr);
+			 cmd.Parameters.AddWithValue("$5", Date_Of_Birth);
+			 await cmd.ExecuteNonQueryAsync();
+
+			 System.Console.WriteLine("New customer registered");
+		 }
 		
 		
 		

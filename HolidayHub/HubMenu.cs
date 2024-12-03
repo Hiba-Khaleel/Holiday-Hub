@@ -62,6 +62,7 @@ public class HubMenu
             {
                 case "1":
                     System.Console.WriteLine("Register new customer");
+                    _queryHandler.RegisterNewCustomer();
                     break;
                 case "2":
                     System.Console.WriteLine("Update existing customer");
