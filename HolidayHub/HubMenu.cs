@@ -82,7 +82,7 @@ public class HubMenu
     public void ManageBookings()
     {
         Console.WriteLine("Choose an option: ");
-        Console.WriteLine("1. Add new booking: ");
+        Console.WriteLine("1. Add new booking: "); //Ska vi lägga till en undermeny-metod?
         Console.WriteLine("2. Change booking: ");
         Console.WriteLine("3. Remove booking: ");
         Console.WriteLine("0. Return to Main Menu: ");
@@ -94,7 +94,6 @@ public class HubMenu
             switch (input)
             {
                 case "1":
-					_queryHandler.SearchAvailableRoomOrderByRating();
                     break;
                 case "2":
 					_queryHandler.SearchBookingById(); // Objectname.Methodname();

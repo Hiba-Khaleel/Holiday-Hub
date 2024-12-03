@@ -37,12 +37,12 @@ public class QueryHandler
 		
 
 	 }
-	 public async Task SearchAvailableRoomOrderByRating()  // SELECT QueryViewer AvailableRoomByRating
+	 public async Task SearchAvailableRoomOrderByRating()  // SELECT QueryViewer AvailableRoomByRating 
+	 /*Skulle kunna lägga ihop ByRating och ByPrice i en metod som sedan ger valet hur det ska visas.*/
 	 {
 		 Console.WriteLine("Enter city destination:");
 		 string destination = Console.ReadLine();
 		 DateTime checkInDate;
-		 
 		 while (true)
 		 {
 			 Console.WriteLine("Enter check in date (yyyy-MM-dd):");
@@ -56,7 +56,6 @@ public class QueryHandler
 				 Console.WriteLine("Invalid format!");
 			 }
 		 } 
-		 
 		 DateTime checkOutDate;
 		 while (true)
 		 {
@@ -71,65 +70,58 @@ public class QueryHandler
 				 Console.WriteLine("Invalid format!");
 			 }
 		 }
-		 
 	     Console.WriteLine("Showing available rooms sorted by rating:");
-		
-		try
-		{
-		    await using (var cmd = _db.CreateCommand(@"SELECT r.id, h.rating, h.rating, h.city, r.room_type, r.price_per_night, h.hotel_name, h.dist_to_city_center, h.dist_to_beach, r.window_view, r.balcony, r.floor, h.pool, h.night_club, h.kids_zone, h.restaurant, h.gym
-               FROM bookings_with_rooms bwr
-               JOIN bookings b ON bwr.booking_id = b.id
-               JOIN rooms r ON bwr.rooms_id = r.id
-               JOIN hotels h ON r.hotel_id = h.id
-               WHERE (check_out_date <= '2024-12-01' /*Här behöver vi lägga till datumet som kunden säger är CheckOutDate*/ OR check_in_date >= '2024-12-16' /*Här behöver vi lägga till datumet som kunden säger är CheckInDate*/)
-               AND h.city = 'Barcelona' /*DestinationVariable*/
-               ORDER BY h.rating"))
-                {
-	                cmd.Parameters.AddWithValue("$1", checkOutDate");
-	                cmd.Parameters.AddWithValue(2, QueryViewer.BookingInformation.CheckInDate);
-	                cmd.Parameters.AddWithValue(3, QueryViewer.BookingInformation.Destination);
-                
-                    await using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())                     
-                            
-                        {
-	                        Console.WriteLine(
-	                            $"Room ID: {reader.GetInt32(0)} \t " + //fixa numbers
-	                            $"Rating: {reader.GetDouble(1)} \t " +
-	                            $"City: {reader.GetString(1)} \t " +
-	                            $"Room type: {reader.GetString(2)} \t " +
-	                            $"Price per night: {reader.GetDouble(3)} \t " +
-	                            $"Hotel name: {reader.GetString(4)} \t " +
-	                            $"Distance to city center: {reader.GetDouble(5)} \t " +
-	                            $"Distance to beach: {reader.GetDouble(6)} \t " +
-	                            $"Window view: {reader.GetBoolean(7)} \t " +
-	                            $"Balcony: {reader.GetBoolean(8)} \t " +
-	                            $"Floor: {reader.GetInt32(9)} \t " +
-	                            $"Pool: {reader.GetBoolean(10)} \t " +
-	                            $"Night club: {reader.GetBoolean(11)} \t " +
-	                            $"Kids Zone: {reader.GetBoolean(12)} \t " +
-	                            $"Restaurant: {reader.GetBoolean(13)} \t " +
-	                            $"Gym: {reader.GetBoolean(14)} \t " 
-	                            );
-                        }
-                    }
-                }
-            
-		}
-		catch
-		{
-			Console.WriteLine("Something went wrong");
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-
+			try
+			{
+			    await using (var cmd = _db.CreateCommand(@"SELECT DISTINCT r.id, h.rating, h.city, r.room_type, r.price_per_night, h.hotel_name, h.dist_to_city_center, h.dist_to_beach, r.window_view, r.balcony, r.floor, h.pool, h.night_club, h.kids_zone, h.restaurant, h.gym
+	               FROM bookings_with_rooms bwr
+	               JOIN bookings b ON bwr.booking_id = b.id
+	               JOIN rooms r ON bwr.rooms_id = r.id
+	               JOIN hotels h ON r.hotel_id = h.id
+	               WHERE NOT (check_in_date < $1 /*Här behöver vi lägga till datumet som kunden säger är CheckInDate*/ AND check_out_date > $2 /*Här behöver vi lägga till datumet som kunden säger är CheckOutDate*/)
+	               AND h.city = $3 /*DestinationVariable*/
+	               ORDER BY h.rating"))
+	                {
+		                cmd.Parameters.AddWithValue(checkInDate);
+		                cmd.Parameters.AddWithValue(checkOutDate);
+		                cmd.Parameters.AddWithValue(destination);
+		                
+	                
+	                    await using (var reader = await cmd.ExecuteReaderAsync())
+	                    {
+	                        while (await reader.ReadAsync())                     
+	                            
+	                        {
+		                        Console.WriteLine(
+		                            $"Room ID: {reader.GetInt32(0)} \t " + 
+		                            $"Rating: {reader.GetDouble(1)} \t " +
+		                            $"City: {reader.GetString(2)} \t " +
+		                            $"Room type: {reader.GetString(3)} \t " +
+		                            $"Price per night: {reader.GetDouble(4)} \t " +
+		                            $"Hotel name: {reader.GetString(5)} \t " +
+		                            $"Distance to city center: {reader.GetDouble(6)} \t " +
+		                            $"Distance to beach: {reader.GetDouble(7)} \t " +
+		                            $"Window view: {reader.GetBoolean(8)} \t " +
+		                            $"Balcony: {reader.GetBoolean(9)} \t " +
+		                            $"Floor: {reader.GetInt32(10)} \t " +
+		                            $"Pool: {reader.GetBoolean(11)} \t " +
+		                            $"Night club: {reader.GetBoolean(12)} \t " +
+		                            $"Kids Zone: {reader.GetBoolean(13)} \t " +
+		                            $"Restaurant: {reader.GetBoolean(14)} \t " +
+		                            $"Gym: {reader.GetBoolean(15)} \n " +
+		                            $"{new string('-', 200)}"
+		                            );
+	                        }
+	                    }
+	                }
+	            
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Something went wrong: {ex.Message}");
+				Console.WriteLine($"Exceptions Details: {ex}");
+			}
+			//REturn too menu-- Hur?
      }
 
 	 public async void SearchAvailableRoomOrderByPrice() // SELECT 	
