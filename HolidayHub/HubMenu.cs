@@ -119,7 +119,7 @@ public class HubMenu
     public async Task ManageBookings()
     {
         Console.WriteLine("Choose an option: ");
-        Console.WriteLine("1. Add new booking: ");
+        Console.WriteLine("1. Add new booking: "); //Ska vi lägga till en undermeny-metod?
         Console.WriteLine("2. Change booking: ");
         Console.WriteLine("3. Remove booking: ");
         Console.WriteLine("0. Return to Main Menu: ");
