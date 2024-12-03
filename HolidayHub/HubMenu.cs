@@ -22,7 +22,6 @@ public class HubMenu
     {
         while (true)
         {
-            Console.WriteLine("Enter your choice: ");
             string input = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(input))
             {
@@ -79,7 +78,7 @@ public class HubMenu
         
     }
 
-    public void ManageBookings()
+    public async Task ManageBookings()
     {
         Console.WriteLine("Choose an option: ");
         Console.WriteLine("1. Add new booking: ");
@@ -96,9 +95,15 @@ public class HubMenu
                 case "1":
                     break;
                 case "2":
-					_queryHandler.SearchBookingById(); // Objectname.Methodname();
-                    break;
+					
+					Console.WriteLine("Enter the Booking ID to search: ");
+					string? idInput = Console.ReadLine();
+					QueryViewer bookingData = await _queryHandler.SearchBookingById(idInput);
+					_queryHandler.UpdateBookingById(bookingData);
+
+					break;
                 case "3":
+					_queryHandler.ListAllBookings();
                     break;
                 case "0":
                     Console.WriteLine("Returning to Main Menu...");
