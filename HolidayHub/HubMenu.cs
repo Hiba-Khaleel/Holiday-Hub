@@ -103,7 +103,16 @@ public class HubMenu
 
 					break;
                 case "3":
-					_queryHandler.ListAllBookings();
+                    Console.WriteLine("Enter the Booking ID to remove: ");
+                    string bookingIdInput = Console.ReadLine();
+                    if (int.TryParse(bookingIdInput, out int bookingId))
+                    {
+                        await _queryHandler.RemoveBookingById(bookingId);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid booking ID. Please enter a valid integer.");
+                    }
                     break;
                 case "0":
                     Console.WriteLine("Returning to Main Menu...");
