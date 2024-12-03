@@ -72,10 +72,20 @@ public class QueryHandler
 
 				 int rowsAffected = await cmd.ExecuteNonQueryAsync();
 
-				 if (rowsAffected > 0)
-
-				 {
-
+				 if (rowsAffected > 0)        
+				 {           
+					 Console.WriteLine("Customer successfully registered.");        
+				 }        
+				 else        
+				 {           
+					 Console.WriteLine("Customer registration failed.");        
+				 }     
+			 } 
+		 } 
+		 catch (Exception ex) 
+		 {     
+			 Console.WriteLine($"An error occurred while registering the customer: {ex.Message}"); 
+		 }
 	 }
 	 public async void SearchAvailableRoomOrderByRating()  // SELECT
      {
@@ -307,5 +317,6 @@ public class QueryHandler
      public async void DeleteOne(string id) { }
 
 */
-}
+
+
 
