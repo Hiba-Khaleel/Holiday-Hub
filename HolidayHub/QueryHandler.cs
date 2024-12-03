@@ -37,9 +37,90 @@ public class QueryHandler
 		
 
 	 }
-	 public async void SearchAvailableRoomOrderByRating()  // SELECT
-     {
+	 public async Task SearchAvailableRoomOrderByRating()  // SELECT QueryViewer AvailableRoomByRating
+	 {
+		 Console.WriteLine("Enter city destination:");
+		 string destination = Console.ReadLine();
+		 DateTime checkInDate;
+		 
+		 while (true)
+		 {
+			 Console.WriteLine("Enter check in date (yyyy-MM-dd):");
+			 string input = Console.ReadLine();
+			 if (DateTime.TryParse(input, out checkInDate))
+			 {
+				 break;
+			 }
+			 else
+			 {
+				 Console.WriteLine("Invalid format!");
+			 }
+		 } 
+		 
+		 DateTime checkOutDate;
+		 while (true)
+		 {
+			 Console.WriteLine("Enter check out date (yyyy-MM-dd):");
+			 string input = Console.ReadLine();
+			 if (DateTime.TryParse(input, out checkOutDate))
+			 {
+				 break;
+			 }
+			 else
+			 {
+				 Console.WriteLine("Invalid format!");
+			 }
+		 }
+		 
+	     Console.WriteLine("Showing available rooms sorted by rating:");
 		
+		try
+		{
+		    await using (var cmd = _db.CreateCommand(@"SELECT r.id, h.rating, h.rating, h.city, r.room_type, r.price_per_night, h.hotel_name, h.dist_to_city_center, h.dist_to_beach, r.window_view, r.balcony, r.floor, h.pool, h.night_club, h.kids_zone, h.restaurant, h.gym
+               FROM bookings_with_rooms bwr
+               JOIN bookings b ON bwr.booking_id = b.id
+               JOIN rooms r ON bwr.rooms_id = r.id
+               JOIN hotels h ON r.hotel_id = h.id
+               WHERE (check_out_date <= '2024-12-01' /*Här behöver vi lägga till datumet som kunden säger är CheckOutDate*/ OR check_in_date >= '2024-12-16' /*Här behöver vi lägga till datumet som kunden säger är CheckInDate*/)
+               AND h.city = 'Barcelona' /*DestinationVariable*/
+               ORDER BY h.rating"))
+                {
+	                cmd.Parameters.AddWithValue("$1", checkOutDate");
+	                cmd.Parameters.AddWithValue(2, QueryViewer.BookingInformation.CheckInDate);
+	                cmd.Parameters.AddWithValue(3, QueryViewer.BookingInformation.Destination);
+                
+                    await using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())                     
+                            
+                        {
+	                        Console.WriteLine(
+	                            $"Room ID: {reader.GetInt32(0)} \t " + //fixa numbers
+	                            $"Rating: {reader.GetDouble(1)} \t " +
+	                            $"City: {reader.GetString(1)} \t " +
+	                            $"Room type: {reader.GetString(2)} \t " +
+	                            $"Price per night: {reader.GetDouble(3)} \t " +
+	                            $"Hotel name: {reader.GetString(4)} \t " +
+	                            $"Distance to city center: {reader.GetDouble(5)} \t " +
+	                            $"Distance to beach: {reader.GetDouble(6)} \t " +
+	                            $"Window view: {reader.GetBoolean(7)} \t " +
+	                            $"Balcony: {reader.GetBoolean(8)} \t " +
+	                            $"Floor: {reader.GetInt32(9)} \t " +
+	                            $"Pool: {reader.GetBoolean(10)} \t " +
+	                            $"Night club: {reader.GetBoolean(11)} \t " +
+	                            $"Kids Zone: {reader.GetBoolean(12)} \t " +
+	                            $"Restaurant: {reader.GetBoolean(13)} \t " +
+	                            $"Gym: {reader.GetBoolean(14)} \t " 
+	                            );
+                        }
+                    }
+                }
+            
+		}
+		catch
+		{
+			Console.WriteLine("Something went wrong");
+		}
 		
 		
 		

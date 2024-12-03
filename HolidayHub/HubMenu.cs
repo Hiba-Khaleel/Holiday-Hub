@@ -94,6 +94,7 @@ public class HubMenu
             switch (input)
             {
                 case "1":
+					_queryHandler.SearchAvailableRoomOrderByRating();
                     break;
                 case "2":
 					_queryHandler.SearchBookingById(); // Objectname.Methodname();
