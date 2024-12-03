@@ -69,19 +69,85 @@ public class QueryHandler
 
 	 }
 
-	 public async void SearchByCustomerSpecifications() // SELECT * FROM customers
-	 {
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
-	 }
+public async void SearchBySpecifications()
+{
+    Console.WriteLine("Enter city destination:");
+    string destination = Console.ReadLine();
+
+    Console.WriteLine("Would you like to include a pool? (yes/no):");
+    bool includePool = Console.ReadLine().ToLower() == "yes";
+
+    Console.WriteLine("Would you like to include night club? (yes/no):");
+    bool includeNightClub = Console.ReadLine().ToLower() == "yes";
+
+    Console.WriteLine("Would you like to include a kids club? (yes/no):");
+    bool includeKidsZone = Console.ReadLine().ToLower() == "yes";
+
+    Console.WriteLine("Would you like to include a restaurant? (yes/no):");
+    bool includeRestaurant = Console.ReadLine().ToLower() == "yes";
+
+    Console.WriteLine("Showing available rooms based on your specifications:");
+
+    try
+    {
+        var query = @"SELECT DISTINCT r.id, h.rating, h.city, r.room_type, r.price_per_night, h.hotel_name, 
+                      h.dist_to_city_center, h.dist_to_beach, r.window_view, r.balcony, r.floor, h.pool, 
+                      h.night_club, h.kids_zone, h.restaurant, h.gym
+                      FROM bookings_with_rooms bwr
+                      JOIN bookings b ON bwr.booking_id = b.id
+                      JOIN rooms r ON bwr.rooms_id = r.id
+                      JOIN hotels h ON r.hotel_id = h.id
+                      WHERE h.city = $1"; 
+
+        if (includePool) query += " AND h.pool = TRUE";
+        if (includeNightClub) query += " AND h.night_club = TRUE";
+        if (includeKidsZone) query += " AND h.kids_zone = TRUE";
+        if (includeRestaurant) query += " AND h.restaurant = TRUE";
+
+       
+
+        await using (var cmd = _db.CreateCommand(query))
+        {
+            cmd.Parameters.AddWithValue(destination);
+
+            await using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    Console.WriteLine(
+                        $"Room ID: {reader.GetInt32(0)} \t " +
+                        $"Rating: {reader.GetDouble(1)} \t " +
+                        $"City: {reader.GetString(2)} \t " +
+                        $"Room type: {reader.GetString(3)} \t " +
+                        $"Price per night: {reader.GetDouble(4)} \t " +
+                        $"Hotel name: {reader.GetString(5)} \t " +
+                        $"Distance to city center: {reader.GetDouble(6)} \t " +
+                        $"Distance to beach: {reader.GetDouble(7)} \t " +
+                        $"Window view: {reader.GetBoolean(8)} \t " +
+                        $"Balcony: {reader.GetBoolean(9)} \t " +
+                        $"Floor: {reader.GetInt32(10)} \t " +
+                        $"Pool: {reader.GetBoolean(11)} \t " +
+                        $"Night club: {reader.GetBoolean(12)} \t " +
+                        $"Kids Zone: {reader.GetBoolean(13)} \t " +
+                        $"Restaurant: {reader.GetBoolean(14)} \t " +
+                        $"Gym: {reader.GetBoolean(15)} \n " +
+                        $"{new string('-', 200)}"
+                    );
+                }
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Something went wrong: {ex.Message}");
+        Console.WriteLine($"Exception Details: {ex}");
+    }
+}
+
+
+
+
 
 	 public async void CreateBooking() // For Individuals that hate life :) 
 	 {
