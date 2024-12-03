@@ -4,52 +4,90 @@ namespace HolidayHub;
 
 public class QueryHandler
 {
-	NpgsqlDataSource _db;
+    NpgsqlDataSource _db;
+    
+     public QueryHandler(NpgsqlDataSource db) 
+      {
+        _db = db;
+      }
 
-	public QueryHandler(NpgsqlDataSource db)
-	{
-		_db = db;
-	}
-
-	public async void ListAllCustomers()
-	{
-		await using (var cmd = _db.CreateCommand("SELECT * FROM customers"))
+     public async void ListAllCustomers()
+	{ 
+	 	await using (var cmd = _db.CreateCommand("SELECT * FROM customers"))
 		await using (var reader = await cmd.ExecuteReaderAsync())
 		{
 			while (await reader.ReadAsync())
 			{
-				Console.WriteLine(
-					$"id: {reader.GetInt32(0)} \t first_name: {reader.GetString(1)}  \t last_name: {reader.GetString(2)} \t email: {reader.GetString(3)} \t phone_nr: {reader.GetString(4)} \t date_of_birth: {reader.GetDateTime(5)}"); //check DateTime Type
+				Console.WriteLine($"id: {reader.GetInt32(0)} \t first_name: {reader.GetString(1)}  \t last_name: {reader.GetString(2)} \t email: {reader.GetString(3)} \t phone_nr: {reader.GetString(4)} \t date_of_birth: {reader.GetDateTime(5)}");//check DateTime Type
 			}
 		}
 
 	}
+     //Metod för register new customer.
+	 /*public async Task RegisterCustomer(QueryViewer customer) // INSERT
+	 {
+		 await using (var cmd = _db.CreateCommand("INSERT INTO customers (first_name, last_name, email, phone_nr, date_of_birth) VALUES ($1, $2, $3, $4, $5)"))
+		 {
+			 cmd.Parameters.AddWithValue("$1", customer.CustomerDetails.FirstName);
+			 cmd.Parameters.AddWithValue("$2", customer.CustomerDetails.LastName);
+			 cmd.Parameters.AddWithValue("$3", customer.CustomerDetails.Email);
+			 cmd.Parameters.AddWithValue("$4", customer.CustomerDetails.PhoneNr);
+			 cmd.Parameters.AddWithValue("$5", customer.CustomerDetails.DateOfBirth);
+			 await cmd.ExecuteNonQueryAsync();			 
+		 }
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
-	public async void RegisterCustomer() // INSERT
-	{
+	 }*/
+	 public async Task RegisterCustomer(QueryViewer customer) // INSERT
 
+	 {
 
+		 try
 
+		 {
 
+			 // Ensure connection is available
 
+			 await using (var cmd = _db.CreateCommand("INSERT INTO customers (first_name, last_name, email, phone_nr, date_of_birth) VALUES ($1, $2, $3, $4, $5)"))
 
+			 {
 
+				 // Add parameters with proper names and values
 
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.FirstName);
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.LastName);
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.Email);
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.PhoneNr);
+				 cmd.Parameters.AddWithValue(customer.CustomerDetails.DateOfBirth);
+ 
+				 // Execute the query and capture the result
 
+				 int rowsAffected = await cmd.ExecuteNonQueryAsync();
 
-	}
+				 if (rowsAffected > 0)
 
-	public async void SearchAvailableRoomOrderByRating() // SELECT
-	{
+				 {
 
-
-
-
-
-
-
-
-
+	 }
+	 public async void SearchAvailableRoomOrderByRating()  // SELECT
+     {
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 	}
 
@@ -70,35 +108,35 @@ public class QueryHandler
 
 
 
-	}
+	 }
 
-	public async void SearchByCustomerSpecifications() // SELECT * FROM customers
-	{
+	 public async void SearchByCustomerSpecifications() // SELECT * FROM customers
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
+	 }
 
+	 public async void CreateBooking() // For Individuals that hate life :) 
+	 {
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
-
-
-
-
-
-
-
-	}
-
-	public async void CreateBooking() // For Individuals that hate life :) 
-	{
-
-
-
-
-
-
-
-
-
-
-	}
+	 }
 
 	public async Task ListAllBookings() // SELECT * FROM bookings
 	{
@@ -236,38 +274,38 @@ public class QueryHandler
 
 }
 
-public async void ShowOne(string id)
+  public async void ShowOne(string id)
 {
-await using (var cmd = _db.CreateCommand("SELECT * FROM customers WHERE id = $1"))
-{
-    cmd.Parameters.AddWithValue(int.Parse(id));
-
-    await using (var reader = await cmd.ExecuteReaderAsync())
+    await using (var cmd = _db.CreateCommand("SELECT * FROM customers WHERE id = $1"))
     {
-        while (await reader.ReadAsync())
+        cmd.Parameters.AddWithValue(int.Parse(id));
+
+        await using (var reader = await cmd.ExecuteReaderAsync())
         {
-            Console.WriteLine(
-                $"id: {reader.GetInt32(0)} \t " +
-                $"first_name: {reader.GetString(1)} \t " +
-                $"last_name: {reader.GetString(2)}\t " +
-                $"email: {reader.GetString(3)} \t " +
-                $"phone_nr: {reader.GetString(4)} \t " +
-                $"date_of_birth: {reader.GetDateTime(5)}"
-            );
+            while (await reader.ReadAsync())
+            {
+                Console.WriteLine(
+                    $"id: {reader.GetInt32(0)} \t " +
+                    $"first_name: {reader.GetString(1)} \t " +
+                    $"last_name: {reader.GetString(2)}\t " +
+                    $"email: {reader.GetString(3)} \t " +
+                    $"phone_nr: {reader.GetString(4)} \t " +
+                    $"date_of_birth: {reader.GetDateTime(5)}"
+                );
+            }
         }
     }
 }
-}
 
 
 
 
- public async void AddOne(string name, string? slogan) { }
+     public async void AddOne(string name, string? slogan) { }
 
- public async void UpdateOne(string id) { }
+     public async void UpdateOne(string id) { }
 
- public async void DeleteOne(string id) { }
+     public async void DeleteOne(string id) { }
 
 */
-
+}
 
