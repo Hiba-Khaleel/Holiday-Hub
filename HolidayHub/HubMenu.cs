@@ -14,7 +14,7 @@ public class HubMenu
         Console.WriteLine("Choose an option: ");
         Console.WriteLine("1. Manage Customers: ");
         Console.WriteLine("2. Manage Bookings: ");
-        Console.WriteLine("3. List All Customers")
+        Console.WriteLine("3. List All Customers");
         Console.WriteLine("0. Exit");
         AskUser();
     }
