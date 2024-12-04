@@ -11,7 +11,7 @@ public class HubMenu
     }
     public void PrintMenu()
     {
-        Console.WriteLine("Choose an option: ");
+        Console.WriteLine("Main Menu: ");
         Console.WriteLine("1. Manage Customers: ");
         Console.WriteLine("2. Manage Bookings: ");
         Console.WriteLine("3. List All Customers");
@@ -28,13 +28,14 @@ public class HubMenu
             {
                 switch (input)
                 {
-                    case "1":
+                    case "1":					
                         ManageCustomers();
                         break;
                     case "2":
                         ManageBookings();
                         break;
 					case "3":
+						Console.WriteLine("\n");
 						_queryHandler.ListAllCustomers();
 						break;
                     case "0":
@@ -51,11 +52,12 @@ public class HubMenu
 
     public async Task ManageCustomers()
     {
-        Console.WriteLine("Choose an option: ");
+		Console.WriteLine("\n");
+        Console.WriteLine("Manage Customers: ");
         Console.WriteLine("1. Register new customer:  ");
         Console.WriteLine("2. Update existing customer: ");
         Console.WriteLine("0. Return to Main Menu: ");
-		Console.WriteLine("Enter your choice: ");
+		Console.WriteLine("Choose an option: ");
 
 		string input = Console.ReadLine();
 
@@ -64,17 +66,19 @@ public class HubMenu
             switch (input)  
             {
                 case "1":
+					Console.WriteLine("\n");
                     System.Console.WriteLine("Register new customer");
                     QueryViewer newCustomer = new QueryViewer();// inititerar QueryViewer(objekt)
+					Console.WriteLine("\n");
                     Console.WriteLine("Enter first name:");
                     string firstName = Console.ReadLine();
 
                     Console.WriteLine("Enter last name:");
                     string lastName = Console.ReadLine();
-
+					
                     Console.WriteLine("Enter email:");
                     string email = Console.ReadLine();
-
+					
                     Console.WriteLine("Enter phone number:");
                     string phoneNr = Console.ReadLine();
 
@@ -87,10 +91,9 @@ public class HubMenu
                     newCustomer.CustomerDetails.PhoneNr = phoneNr;
                     newCustomer.CustomerDetails.DateOfBirth = inputDate;
                     
-                   
-                    //string dateBirth = Console.ReadLine();
+                    /*string dateBirth = Console.ReadLine();
                     
-                    /*if (DateTime.TryParse(inputDate, out DateTime dateOfBirth))
+                    if (DateTime.TryParse(inputDate, out DateTime dateOfBirth))
                     { 
                         newCustomer.CustomerDetails.DateOfBirth = DateTime.Parse(dateOfBirth);
                         break;
@@ -102,14 +105,17 @@ public class HubMenu
                     
 					
                     await _queryHandler.RegisterCustomer(newCustomer);
-                    System.Console.WriteLine("New customer has been registered");
+					Console.WriteLine("\n");
+                    Console.WriteLine("New customer has been registered");
                     break;
                 case "2":
+					Console.WriteLine("\n");
                     System.Console.WriteLine("Update existing customer");
                     _queryHandler.ListAllCustomers(); // Objectname.Methodname();
                     break;
                 case "0":
                     Console.WriteLine("Returning to Main Menu...");
+					Console.WriteLine("\n");
 					PrintMenu();
                     return;
                 default:
@@ -122,12 +128,13 @@ public class HubMenu
 
     public async Task ManageBookings()
     {
-        Console.WriteLine("Choose an option: ");
+		Console.WriteLine("\n");
+        Console.WriteLine("Manage Bookings: ");
         Console.WriteLine("1. Add new booking: "); //Ska vi lägga till en undermeny-metod?
         Console.WriteLine("2. Change booking: ");
         Console.WriteLine("3. Remove booking: ");
         Console.WriteLine("0. Return to Main Menu: ");
-		Console.WriteLine("Enter your choice: ");
+		Console.WriteLine("Choose an option: ");
 
         string input = Console.ReadLine();
         if (!string.IsNullOrWhiteSpace(input))
@@ -137,14 +144,14 @@ public class HubMenu
                 case "1":
                     break;
                 case "2":
-					
+					Console.WriteLine("\n");
 					Console.WriteLine("Enter the Booking ID to search: ");
 					string? idInput = Console.ReadLine();
 					QueryViewer bookingData = await _queryHandler.SearchBookingById(idInput);
 					_queryHandler.UpdateBookingById(bookingData);
-
 					break;
                 case "3":
+					Console.WriteLine("\n");
                     Console.WriteLine("Enter the Booking ID to remove: ");
                     string bookingIdInput = Console.ReadLine();
                     if (int.TryParse(bookingIdInput, out int bookingId))
@@ -158,6 +165,7 @@ public class HubMenu
                     break;
                 case "0":
                     Console.WriteLine("Returning to Main Menu...");
+					Console.WriteLine("\n");
 					PrintMenu();
                     return;
                 default:

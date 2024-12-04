@@ -6,7 +6,8 @@ class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Welcome to HolidayHub!");
+		Console.WriteLine("\n");
+        Console.WriteLine("Welcome to HolidayHub! \n");
         // anslut till databasen
         Database database = new();
         // hämta anslutningen (db) att göra queries med
