@@ -74,17 +74,17 @@ public class QueryHandler
 
 				 if (rowsAffected > 0)        
 				 {           
-					 Console.WriteLine("Customer successfully registered.");        
+					 Console.WriteLine("Customer successfully registered.");
 				 }        
 				 else        
 				 {           
-					 Console.WriteLine("Customer registration failed.");        
+					 Console.WriteLine("Customer registration failed.");
 				 }     
 			 } 
 		 } 
 		 catch (Exception ex) 
 		 {     
-			 Console.WriteLine($"An error occurred while registering the customer: {ex.Message}"); 
+			 Console.WriteLine($"An error occurred while registering the customer: {ex.Message}");
 		 }
 	 }
 	 public async Task SearchAvailableRoomOrderByRating()  // SELECT QueryViewer AvailableRoomByRating 
@@ -124,7 +124,7 @@ public class QueryHandler
 			try
 			{
 			    await using (var cmd = _db.CreateCommand(@"SELECT DISTINCT r.id, h.rating, h.city, r.room_type, r.price_per_night, h.hotel_name, h.dist_to_city_center, h.dist_to_beach, r.window_view, r.balcony, r.floor, h.pool, h.night_club, h.kids_zone, h.restaurant, h.gym
-	               FROM bookings_with_rooms bwr
+	               FROM bookings_with_rooms bwr --Bookings_X_Rooms?
 	               JOIN bookings b ON bwr.booking_id = b.id
 	               JOIN rooms r ON bwr.rooms_id = r.id
 	               JOIN hotels h ON r.hotel_id = h.id
@@ -135,8 +135,8 @@ public class QueryHandler
 		                cmd.Parameters.AddWithValue(checkInDate);
 		                cmd.Parameters.AddWithValue(checkOutDate);
 		                cmd.Parameters.AddWithValue(destination);
-		                
-	                
+		               
+	               
 	                    await using (var reader = await cmd.ExecuteReaderAsync())
 	                    {
 	                        while (await reader.ReadAsync())                     
@@ -281,7 +281,7 @@ public async void SearchBySpecifications()
 		
 		
 		
-		
+	
 		
 		
 

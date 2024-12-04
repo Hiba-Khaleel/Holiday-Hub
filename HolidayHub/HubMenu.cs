@@ -13,7 +13,8 @@ public class HubMenu
     {
         Console.WriteLine("Choose an option: ");
         Console.WriteLine("1. Manage Customers: ");
-        Console.WriteLine("2. Manage bookings: ");
+        Console.WriteLine("2. Manage Bookings: ");
+        Console.WriteLine("3. List All Customers")
         Console.WriteLine("0. Exit");
         AskUser();
     }
@@ -33,6 +34,9 @@ public class HubMenu
                     case "2":
                         ManageBookings();
                         break;
+					case "3":
+						_queryHandler.ListAllCustomers();
+						break;
                     case "0":
                         Console.WriteLine("Exiting... Have a nice day!");
                         return;
