@@ -9,6 +9,7 @@ public class HubMenu
     {
         _queryHandler = queryHandler;
     }
+
     public void PrintMenu()
     {
         Console.WriteLine("Main Menu: ");
@@ -19,7 +20,7 @@ public class HubMenu
         AskUser();
     }
 
-    private void AskUser()
+    public void AskUser()
     {
         while (true)
         {
@@ -45,9 +46,8 @@ public class HubMenu
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
-            }
-           
-        }
+			}
+		}
     }
 
     public async Task ManageCustomers()
@@ -101,9 +101,7 @@ public class HubMenu
                     }
                     
                     else{ Console.WriteLine("Invalid format!");}*/
-                    
-                    
-					
+                   					
                     await _queryHandler.RegisterCustomer(newCustomer);
 					Console.WriteLine("\n");
                     Console.WriteLine("New customer has been registered");
@@ -122,56 +120,111 @@ public class HubMenu
                     System.Console.WriteLine("Invalid choice. Please try again.");
                     break;
             }
-        }
-        
+        }  
     }
 
-    public async Task ManageBookings()
-    {
-		Console.WriteLine("\n");
-        Console.WriteLine("Manage Bookings: ");
-        Console.WriteLine("1. Add new booking: "); //Ska vi lägga till en undermeny-metod?
-        Console.WriteLine("2. Change booking: ");
-        Console.WriteLine("3. Remove booking: ");
-        Console.WriteLine("0. Return to Main Menu: ");
-		Console.WriteLine("Choose an option: ");
+	public async Task ManageBookings()
+	{
+		bool backToMain = false;
+		while (!backToMain) {
+    	Console.WriteLine("\nManage Bookings:");
+    	Console.WriteLine("1. Search Rooms:");
+    	Console.WriteLine("2. Add new booking:");
+    	Console.WriteLine("3. Change booking:");
+    	Console.WriteLine("4. Remove booking:");
+		Console.WriteLine("5. List All Bookings: ");
+    	Console.WriteLine("0. Return to Main Menu:");
+    	Console.WriteLine("Choose an option:");
 
-        string input = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(input))
-        {
-            switch (input)
-            {
-                case "1":
-                    break;
-                case "2":
-					Console.WriteLine("\n");
-					Console.WriteLine("Enter the Booking ID to search: ");
-					string? idInput = Console.ReadLine();
-					QueryViewer bookingData = await _queryHandler.SearchBookingById(idInput);
-					_queryHandler.UpdateBookingById(bookingData);
+	    string input = Console.ReadLine();
+
+	    if (!string.IsNullOrWhiteSpace(input))
+  	 	{
+        	switch (input)
+        	{
+            	case "1": // Search Rooms submenu
+                	Console.WriteLine("\nSearch Rooms:");
+                	Console.WriteLine("1. Search Rooms by Rating:");
+                	Console.WriteLine("2. Search Rooms by Price:");
+                	Console.WriteLine("3. Search Rooms by Specifications:");
+                	Console.WriteLine("0. Return to Manage Bookings:");
+                	Console.WriteLine("Choose an option:");
+
+                	string searchInput = Console.ReadLine();
+
+                	if (!string.IsNullOrWhiteSpace(searchInput))
+                	{
+                    	switch (searchInput)
+                    	{
+                        	case "1":
+                            	await _queryHandler.SearchAvailableRoomOrderByRating();
+                            	break;
+
+                        	case "2":
+                            	await _queryHandler.SearchAvailableRoomOrderByPrice();
+                            	break;
+
+                        	case "3":
+                            	_queryHandler.SearchBySpecifications();
+                            	break;
+
+                        	case "0":
+                            	Console.WriteLine("Returning to Manage Bookings...");
+                            	ManageBookings(); // Go back to ManageBookings menu
+                            	break;
+
+                        	default:
+                            	Console.WriteLine("Invalid input. Please try again.");
+                            	ManageBookings(); // Restart ManageBookings
+                            	break;
+                    	}
+                	}
+
+                	ManageBookings(); // Go back to ManageBookings after Search Rooms submenu
+                	break;
+
+            	case "2":
+                	Console.WriteLine("\nAdding a new booking...");
+                	ManageBookings(); // Go back to ManageBookings after adding a booking
+                	break;
+
+            	case "3":
+                	Console.WriteLine("\nEnter the Booking ID to search:");
+                	string? idInput = Console.ReadLine();
+                	QueryViewer bookingData = await _queryHandler.SearchBookingById(idInput);
+                	_queryHandler.UpdateBookingById(bookingData);
+                	ManageBookings(); // Go back to ManageBookings after updating a booking
+                	break;
+
+            	case "4":
+                	Console.WriteLine("\nEnter the Booking ID to remove:");
+                	string bookingIdInput = Console.ReadLine();
+                	if (int.TryParse(bookingIdInput, out int bookingId))
+                	{
+                    	await _queryHandler.RemoveBookingById(bookingId);
+                	}
+                	else
+                	{
+                    	Console.WriteLine("Invalid booking ID. Please enter a valid integer.");
+                	}
+
+                	ManageBookings(); // Go back to ManageBookings after removing a booking
+                	break;
+			
+				case "5":
+					_queryHandler.ListAllBookings();
 					break;
-                case "3":
-					Console.WriteLine("\n");
-                    Console.WriteLine("Enter the Booking ID to remove: ");
-                    string bookingIdInput = Console.ReadLine();
-                    if (int.TryParse(bookingIdInput, out int bookingId))
-                    {
-                        await _queryHandler.RemoveBookingById(bookingId);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid booking ID. Please enter a valid integer.");
-                    }
-                    break;
-                case "0":
-                    Console.WriteLine("Returning to Main Menu...");
-					Console.WriteLine("\n");
-					PrintMenu();
-                    return;
-                default:
-                    Console.WriteLine("Invalid input. Please try again.");
-                    break;
-            }
-        }
-    }
+            	case "0":
+                	Console.WriteLine("Returning to Main Menu...");
+					backToMain = true;
+                	break; // Exit ManageBookings and return to the main menu
+
+            	default:
+                	Console.WriteLine("Invalid input. Please try again.");
+                	ManageBookings(); // Restart ManageBookings on invalid input
+                	break;	
+				}		
+			}
+    	}
+	}
 }
