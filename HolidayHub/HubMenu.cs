@@ -156,7 +156,8 @@ public class HubMenu
                     break;
 
                 case "2":
-                    Console.WriteLine("\nAdding a new booking...");                
+                    Console.WriteLine("\nAdding a new booking...");
+					_queryHandler.CreateBooking();                
                     break;
 
                 case "3":
