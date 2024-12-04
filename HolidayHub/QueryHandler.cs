@@ -273,19 +273,165 @@ public async void SearchBySpecifications()
 
 
 
-	 public async void CreateBooking() // For Individuals that hate life :) 
-	 {
-		
-		
-		
-		
-		
-		
+	 public async Task CreateBooking() // For Individuals that hate life :) #Henke #NO_PAIN_NO_GAIN
+    {
+        try
+        {
+            QueryViewer bookingInfo = new QueryViewer();
+            
+            // Gather basic booking details from the user
+            Console.WriteLine("Enter the Customer ID:");
+			int custID;
+            while (!int.TryParse(Console.ReadLine(), out custID))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid Customer ID (positive integer).");
+            }
+			
+			bookingInfo.BookingDetails.CustomerId = custID;
+			
+     
+            Console.WriteLine("Enter Check-In Date (yyyy-MM-dd):");
+			DateTime checkInDate;
+            while (!DateTime.TryParse(Console.ReadLine(), out checkInDate))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid Check-In Date (format: yyyy-MM-dd).");
+            }
+			bookingInfo.BookingDetails.CheckInDate = checkInDate;
+     
+            Console.WriteLine("Enter Check-Out Date (yyyy-MM-dd):");
+			DateTime checkOutDate;
+            while (!DateTime.TryParse(Console.ReadLine(), out checkOutDate))
+            {
+                Console.WriteLine("Invalid input. Check-Out Date must be later than Check-In Date (format: yyyy-MM-dd).");
+            }
+     		bookingInfo.BookingDetails.CheckOutDate = checkOutDate;
+			
+	        
+	        Console.WriteLine("Enter number of guests :");
+	        int nrOfGuests;
+	        while (!int.TryParse(Console.ReadLine(), out nrOfGuests))
+	        {
+		        Console.WriteLine("Invalid input. Please enter a valid guest number (positive integer).");
+	        }
+	        bookingInfo.BookingDetails.NumberOfGuests = nrOfGuests;
 	
-		
-		
+	        Console.WriteLine("Enter number of adults :");
+	        int nrOfAdults;
+	        while (!int.TryParse(Console.ReadLine(), out nrOfAdults))
+	        {
+		        Console.WriteLine("Invalid input. Please enter a valid adult number (positive integer).");
+	        }
+	        bookingInfo.BookingDetails.NumberOfAdults = nrOfAdults;
+	
+	        Console.WriteLine("Enter number of children :");
+	        int nrOfChildren;
+	        while (!int.TryParse(Console.ReadLine(), out nrOfChildren))
+	        {
+		        Console.WriteLine("Invalid input. Please enter a valid children number (positive integer).");
+	        }
+	        bookingInfo.BookingDetails.NumberOfChildren = nrOfChildren;
 
-	 }
+	        bool validBoardType = false;
+	        string boardType;
+	        while (!validBoardType)
+	        {
+		        Console.WriteLine("Enter board type (none, half, full) :");
+		        boardType = Console.ReadLine();
+		        if (boardType != "none" && boardType != "half" && boardType != "full")
+		        {
+			        Console.WriteLine("Invalid input. Please enter a valid board type.");
+		        }
+		        else
+		        {
+			        bookingInfo.BookingDetails.BoardType = boardType;
+					validBoardType = true;
+		        }
+	        }
+	
+	        Console.WriteLine("Do you want an extra bed? (yes/no): ");
+	        bool extraBed = Console.ReadLine().ToLower() == "yes";
+	        bookingInfo.BookingDetails.ExtraBed = extraBed;
+	        
+	        
+	        Console.WriteLine("Enter the Room ID:");
+	        int roomID;
+	        while (!int.TryParse(Console.ReadLine(), out roomID))
+	        {
+		        Console.WriteLine("Invalid input. Please enter a valid Room ID (positive integer).");
+	        }
+			
+	        bookingInfo.RoomDetails.RoomID = roomID;
+	        /*
+	        // Fetch available rooms for the selected destination
+            var updatedBookingInfo = await GetAvailableRooms(bookingInfo.BookingDetails.CheckInDate, bookingInfo.BookingDetails.CheckOutDate, destination);
+     
+            if (updatedBookingInfo == null)
+            {
+                Console.WriteLine("Booking process terminated due to unavailability of rooms.");
+                return;
+            }
+			*/
+	        
+	        
+            // Update the bookingInfo with the selected room
+            //bookingInfo.RoomDetails = updatedBookingInfo.RoomDetails;
+     
+            // Proceed to database insertion
+            //await CreateBookingInDatabase(bookingInfo);
+            // Using a parameterized query to avoid SQL injection
+            await using (var cmd = _db.CreateCommand(@"
+            WITH new_booking AS (
+                INSERT INTO bookings (
+                    customer_id,
+                    check_in_date,
+                    check_out_date,
+                    nr_of_guests,
+                    nr_of_adults,
+                    nr_of_children,
+                    board_type,
+                    extra_bed
+                )
+                VALUES (
+                    $1,  -- customer_id
+                    $2,  -- check_in_date
+                    $3,  -- check_out_date
+                    $4,  -- nr_of_guests
+                    $5,  -- nr_of_adults
+                    $6,  -- nr_of_children
+                    $7,  -- board_type
+                    $8   -- extra_bed
+                )
+                RETURNING id  -- Return the generated id
+            )
+            INSERT INTO bookings_x_rooms (booking_id, rooms_id)
+            SELECT new_booking.id, $9 
+		    FROM new_booking;  -- Use the id from the WITH clause"))
+            {
+	            // Add parameters to the command in the same order as the placeholders in the SQL query
+	            cmd.Parameters.AddWithValue(bookingInfo.BookingDetails.CustomerId);
+	            cmd.Parameters.AddWithValue(bookingInfo.BookingDetails.CheckInDate);
+	            cmd.Parameters.AddWithValue(bookingInfo.BookingDetails.CheckOutDate);
+	            cmd.Parameters.AddWithValue(bookingInfo.BookingDetails.NumberOfGuests);
+	            cmd.Parameters.AddWithValue(bookingInfo.BookingDetails.NumberOfAdults);
+	            cmd.Parameters.AddWithValue(bookingInfo.BookingDetails.NumberOfChildren);
+	            cmd.Parameters.AddWithValue(bookingInfo.BookingDetails.BoardType);
+	            cmd.Parameters.AddWithValue(bookingInfo.BookingDetails.ExtraBed);
+
+	            // Assuming you have room information in the QueryViewer for room ID (booking_x_rooms)
+	            // If there's a way to retrieve the room_id, you can use it like this:
+	            cmd.Parameters.AddWithValue(bookingInfo.RoomDetails.RoomID); // Or use a different value if needed
+	            //cmd.Parameters.AddWithValue(1);  // Replace with the actual room ID, e.g., room 1
+
+	            // Execute the command
+	            await cmd.ExecuteNonQueryAsync();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while creating the booking: {ex.Message}");
+        }
+    }
 
 	public async Task ListAllBookings() // SELECT * FROM bookings
 	{
