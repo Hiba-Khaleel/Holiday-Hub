@@ -516,6 +516,122 @@ public async void SearchBySpecifications()
 	{
 		// Update data
 
+		// Ask and update Check-In Date
+        Console.WriteLine($"Current Check-In Date: {bookingData.BookingDetails.CheckInDate.ToString("yyyy-MM-dd")}");
+        Console.WriteLine("What would you like your new Check-In Date to be? (yyyy-MM-dd)");
+        string checkInInput = Console.ReadLine();
+        
+        if (DateTime.TryParse(checkInInput, out DateTime newCheckInDate))
+        {
+            bookingData.BookingDetails.CheckInDate = newCheckInDate;
+        }
+        else
+        {
+            Console.WriteLine("Invalid date format. The check-in date was not changed.");
+        }
+    
+        // Ask and update Check-Out Date
+        Console.WriteLine($"Current Check-Out Date: {bookingData.BookingDetails.CheckOutDate.ToString("yyyy-MM-dd")}");
+        Console.WriteLine("What would you like your new Check-Out Date to be? (yyyy-MM-dd)");
+        string checkOutInput = Console.ReadLine();
+        
+        if (DateTime.TryParse(checkOutInput, out DateTime newCheckOutDate))
+        {
+            bookingData.BookingDetails.CheckOutDate = newCheckOutDate;
+        }
+        else
+        {
+            Console.WriteLine("Invalid date format. The check-out date was not changed.");
+        }
+    
+        // Ask and update Number of Guests
+        Console.WriteLine($"Current Number of Guests: {bookingData.BookingDetails.NumberOfGuests}");
+        Console.WriteLine("What would you like your new Number of Guests to be?");
+        string guestsInput = Console.ReadLine();
+        
+        if (int.TryParse(guestsInput, out int newNumberOfGuests))
+        {
+            bookingData.BookingDetails.NumberOfGuests = newNumberOfGuests;
+        }
+        else
+        {
+            Console.WriteLine("Invalid number. The number of guests was not changed.");
+        }
+    
+        // Ask and update Number of Adults
+        Console.WriteLine($"Current Number of Adults: {bookingData.BookingDetails.NumberOfAdults}");
+        Console.WriteLine("What would you like your new Number of Adults to be?");
+        string adultsInput = Console.ReadLine();
+        
+        if (int.TryParse(adultsInput, out int newNumberOfAdults))
+        {
+            bookingData.BookingDetails.NumberOfAdults = newNumberOfAdults;
+        }
+        else
+        {
+            Console.WriteLine("Invalid number. The number of adults was not changed.");
+        }
+    
+        // Ask and update Number of Children
+        Console.WriteLine($"Current Number of Children: {bookingData.BookingDetails.NumberOfChildren}");
+        Console.WriteLine("What would you like your new Number of Children to be?");
+        string childrenInput = Console.ReadLine();
+        
+        if (int.TryParse(childrenInput, out int newNumberOfChildren))
+        {
+            bookingData.BookingDetails.NumberOfChildren = newNumberOfChildren;
+        }
+        else
+        {
+            Console.WriteLine("Invalid number. The number of children was not changed.");
+        }
+    
+        // Ask and update Board Type
+        Console.WriteLine($"Current Board Type: {bookingData.BookingDetails.BoardType}");
+        Console.WriteLine("What would you like your new Board Type to be?");
+        string boardTypeInput = Console.ReadLine();
+        
+        if (!string.IsNullOrWhiteSpace(boardTypeInput))
+        {
+            bookingData.BookingDetails.BoardType = boardTypeInput;
+        }
+        else
+        {
+            Console.WriteLine("Invalid board type. The board type was not changed.");
+        }
+    
+        // Ask and update Extra Bed
+        Console.WriteLine($"Current Extra Bed: {(bookingData.BookingDetails.ExtraBed ? "Yes" : "No")}");
+        Console.WriteLine("Would you like an extra bed? (yes/no)");
+        string extraBedInput = Console.ReadLine();
+        
+        if (extraBedInput.ToLower() == "yes")
+        {
+            bookingData.BookingDetails.ExtraBed = true;
+        }
+        else if (extraBedInput.ToLower() == "no")
+        {
+            bookingData.BookingDetails.ExtraBed = false;
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. The extra bed status was not changed.");
+        }
+    
+        // Display the updated booking details
+        Console.WriteLine("\nUpdated Booking Details:");
+        Console.WriteLine($"Check-In Date: {bookingData.BookingDetails.CheckInDate.ToString("yyyy-MM-dd")}");
+        Console.WriteLine($"Check-Out Date: {bookingData.BookingDetails.CheckOutDate.ToString("yyyy-MM-dd")}");
+        Console.WriteLine($"Number of Guests: {bookingData.BookingDetails.NumberOfGuests}");
+        Console.WriteLine($"Number of Adults: {bookingData.BookingDetails.NumberOfAdults}");
+        Console.WriteLine($"Number of Children: {bookingData.BookingDetails.NumberOfChildren}");
+        Console.WriteLine($"Board Type: {bookingData.BookingDetails.BoardType}");
+        Console.WriteLine($"Extra Bed: {(bookingData.BookingDetails.ExtraBed ? "Yes" : "No")}");
+		
+		
+		
+		
+		
 		await using (var cmd = _db.CreateCommand(
 			             "UPDATE bookings SET id = $1, customer_id = $2, check_in_date = $3, check_out_date = $4, nr_of_guests = $5, nr_of_adults = $6, nr_of_children = $7, board_type = $8, extra_bed = $9  WHERE id = $1"))
 		{
