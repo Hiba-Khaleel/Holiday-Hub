@@ -16,14 +16,37 @@ public class HubMenu
         bool exitProgram = false;
         while (!exitProgram)
         {
-            Console.WriteLine("Main Menu:");
-            Console.WriteLine("1. Manage Customers");
-            Console.WriteLine("2. Manage Bookings");
-            Console.WriteLine("3. List All Customers");
-            Console.WriteLine("0. Exit");
-            Console.Write("Choose an option: ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════╗");
+            Console.WriteLine("║                     Hub Menu                     ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════╝");  
+            Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("1. ");
+        Console.ResetColor();
+        Console.WriteLine("Manage Customers");
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("2. ");
+        Console.ResetColor();
+        Console.WriteLine("Manage Bookings");
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("3. ");
+        Console.ResetColor();
+        Console.WriteLine("List All Customers");
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("0. ");
+        Console.WriteLine(" Exit");
+        Console.ResetColor();
+
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("Choose an option: ");
+        Console.ResetColor();
 
             string input = Console.ReadLine();
+
 
             switch (input)
             {
@@ -52,17 +75,37 @@ public class HubMenu
         bool backToMain = false;
         while (!backToMain)
         {
-            Console.WriteLine("\nManage Customers:");
-            Console.WriteLine("1. Register new customer");
-            Console.WriteLine("2. Update existing customer");
-            Console.WriteLine("0. Return to Main Menu");
+            Console.ForegroundColor = ConsoleColor.Blue;
+             Console.Write("\n");
+;
+            Console.WriteLine("╔════════════════════════╗");
+            Console.WriteLine("║    Manage Customers    ║");
+            Console.WriteLine("╚════════════════════════╝"); 
+            Console.Write("\n"); 
+            Console.Write("1. ");
+            Console.ResetColor();
+            Console.WriteLine("Register new customer");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("2. ");
+            Console.ResetColor();
+        	Console.WriteLine("Update existing customer");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("0. Returning to Main Menu...");
+            Console.ResetColor(); 
+            Console.Write("\n");  
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("Choose an option: ");
+            Console.ResetColor();
+
 
             string input = Console.ReadLine();
 
             switch (input)
             {
                 case "1":
+                    Console.Write("\n");
                     Console.WriteLine("Register new customer:");
                     QueryViewer newCustomer = new QueryViewer();
 
@@ -91,6 +134,7 @@ public class HubMenu
                     break;
 
                 case "2":
+                    Console.Write("\n");
                     Console.WriteLine("Update existing customer:");
                     _queryHandler.ListAllCustomers();
                     break;
@@ -101,6 +145,7 @@ public class HubMenu
                     break;
 
                 default:
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("Invalid choice. Please try again.");
                     break;
             }
@@ -112,26 +157,79 @@ public class HubMenu
         bool backToMain = false;
         while (!backToMain)
         {
-            Console.WriteLine("\nManage Bookings:");
-            Console.WriteLine("1. Search Rooms");
-            Console.WriteLine("2. Add new booking");
-            Console.WriteLine("3. Change booking");
-            Console.WriteLine("4. Remove booking");
-            Console.WriteLine("5. List All Bookings");
-            Console.WriteLine("0. Return to Main Menu");
+			 Console.ForegroundColor = ConsoleColor.Blue;
+             Console.Write("\n");
+
+            Console.WriteLine("╔════════════════════════╗");
+            Console.WriteLine("║    Manage Bookings     ║");
+            Console.WriteLine("╚════════════════════════╝");
+            Console.Write("\n");  
+            Console.Write("1. ");
+            Console.ResetColor();            
+            Console.WriteLine("Search Rooms");
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write("2. ");
+            Console.ResetColor();
+            Console.WriteLine("Add new booking");
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write("3. ");
+            Console.ResetColor();
+
+            Console.WriteLine("Change booking");
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write("4. ");
+            Console.ResetColor();
+
+            Console.WriteLine("Remove booking");
+            Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write("5. ");
+            Console.ResetColor();
+            Console.WriteLine("List All Bookings");
+
+			Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("0. Returning to Main Menu...");
+            Console.ResetColor(); 
+            Console.Write("\n");
+  
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("Choose an option: ");
+            Console.ResetColor(); 
 
             string input = Console.ReadLine();
 
             switch (input)
             {
                 case "1":
-                    Console.WriteLine("\nSearch Rooms:");
+ 					Console.WriteLine("\n");
+                    /*Console.WriteLine("\nSearch Rooms:");
                     Console.WriteLine("1. Search Rooms by Rating");
                     Console.WriteLine("2. Search Rooms by Price");
                     Console.WriteLine("3. Search Rooms by Specifications");
                     Console.WriteLine("0. Return to Manage Bookings");
                     Console.Write("Choose an option: ");
+*/           		 
+     				Console.ForegroundColor = ConsoleColor.Blue;
+					Console.WriteLine("\nSearch Rooms:");
+            		Console.Write("1. ");
+            		Console.ResetColor();
+       	 			Console.WriteLine("Search Rooms by Rating");
+        
+        			Console.ForegroundColor = ConsoleColor.Blue;
+        			Console.Write("2. ");
+        			Console.ResetColor();
+        			Console.WriteLine("Search Rooms by Price");
+        
+        			Console.ForegroundColor = ConsoleColor.Blue;
+        			Console.Write("3. ");
+        			Console.ResetColor();
+        			Console.WriteLine("Search Rooms by Specifications");
+        
+        			Console.ForegroundColor = ConsoleColor.Blue;
+        			Console.WriteLine("0. Return to Manage Bookings");
+                    Console.WriteLine("\n");
+            		Console.Write("Choose an option: ");
+        			Console.ResetColor();
+
 
                     string searchInput = Console.ReadLine();
 

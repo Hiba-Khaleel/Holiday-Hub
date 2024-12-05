@@ -73,8 +73,9 @@ public class QueryHandler
 				 int rowsAffected = await cmd.ExecuteNonQueryAsync();
 
 				 if (rowsAffected > 0)        
-				 {           
-					 Console.WriteLine("Customer successfully registered.");
+				 {     
+					 Console.Write("\n");
+					 Console.WriteLine("Customer successfully registered \ud83c\udf89");
 				 }        
 				 else        
 				 {           
@@ -174,24 +175,33 @@ public class QueryHandler
 			//REturn too menu-- Hur?
      }
 
-	public async Task SearchAvailableRoomOrderByPrice()
-	{
-
-		await using (var cmd = _db.CreateCommand("SELECT * FROM rooms ORDER BY price_per_night"))
-		{
-			await using (var reader = await cmd.ExecuteReaderAsync())
-			{
-				while (await reader.ReadAsync())
-
-					Console.WriteLine(
-						$"id: {reader.GetInt32(0)}\t price_per_night: {reader.GetDouble(3)} \t hotel_id: {reader.GetInt32(1)} \t room_type: {reader.GetString(2)} \t window_view: {reader.GetBoolean(4)}\t balcony: {reader.GetBoolean(5)}\t floor: {reader.GetInt32(6)}");
-			}
-
-		}
-
-
-
+	 public async Task SearchAvailableRoomOrderByPrice()
+	 {
+		 await using (var cmd = _db.CreateCommand("SELECT rooms.id, price_per_night, city, country, room_type, hotel_name, window_view, balcony, floor " +
+		                                          "FROM rooms " +
+		                                          "JOIN public.hotels h ON h.id = rooms.hotel_id " +
+		                                          "ORDER BY price_per_night"))
+		 {
+			 await using (var reader = await cmd.ExecuteReaderAsync())
+			 {
+				 while (await reader.ReadAsync())
+				 {
+					 Console.WriteLine(
+						 $"Room ID: {reader.GetInt32(0)}\t" +
+						 $"Price per Night: {reader.GetDouble(1)}\t" +
+						 $"City: {reader.GetString(2)}\t" +
+						 $"Country: {reader.GetString(3)}\t" +
+						 $"Room Type: {reader.GetString(4)}\t" +
+						 $"Hotel Name: {reader.GetString(5)}\t" +
+						 $"Window View: {reader.GetBoolean(6)}\t" +
+						 $"Balcony: {reader.GetBoolean(7)}\t" +
+						 $"Floor: {reader.GetInt32(8)}"
+					 );
+				 }
+			 }
+		 }
 	 }
+
 
 
 public async void SearchBySpecifications()
