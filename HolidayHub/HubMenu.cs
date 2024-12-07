@@ -200,14 +200,7 @@ public class HubMenu
             switch (input)
             {
                 case "1":
- 					Console.WriteLine("\n");
-                    /*Console.WriteLine("\nSearch Rooms:");
-                    Console.WriteLine("1. Search Rooms by Rating");
-                    Console.WriteLine("2. Search Rooms by Price");
-                    Console.WriteLine("3. Search Rooms by Specifications");
-                    Console.WriteLine("0. Return to Manage Bookings");
-                    Console.Write("Choose an option: ");
-*/           		 
+ 					Console.WriteLine("\n");          		 
      				Console.ForegroundColor = ConsoleColor.Blue;
 					Console.WriteLine("\nSearch Rooms:");
             		Console.Write("1. ");
